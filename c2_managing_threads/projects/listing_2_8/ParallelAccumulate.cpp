@@ -78,6 +78,12 @@ int main()
     int elementCount = 300000000;
     vector<int> numbers(elementCount, 1);
 
+    // There were 4 hardware threads.
+    // Only when elementCount reached in the millions, did parallel outperform sequential.
+    // For 300M elements
+    //  - Sequential Elapsed: 2.22675 seconds.
+    //  - Parallel Elapsed: 0.987583 seconds.
+    //
     auto startTime = chrono::high_resolution_clock::now();
     int totalSeq = accumulate(numbers.cbegin(), numbers.cend(), 0);
     auto finishTime = chrono::high_resolution_clock::now();
