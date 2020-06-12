@@ -78,7 +78,7 @@ int main()
     int elementCount = 300000000;
     vector<int> numbers(elementCount, 1);
 
-    // There were 4 hardware threads.
+    // There were 4 hardware threads on my Surface Go.
     // Only when elementCount reached in the millions, did parallel outperform sequential.
     // For 300M elements
     //  - Sequential Elapsed: 2.22675 seconds.
