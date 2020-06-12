@@ -19,5 +19,6 @@ int main()
         mythreads.push_back( thread{hello, i} );
     }
 
+    // mem_fn is wrapping up thread::join() in an object
     for_each( mythreads.begin(), mythreads.end(), mem_fn(&thread::join) );
 }
