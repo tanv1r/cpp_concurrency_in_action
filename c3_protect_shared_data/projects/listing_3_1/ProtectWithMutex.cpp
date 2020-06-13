@@ -12,6 +12,7 @@ mutex globalCountLock;
 int globalCount = 0;
 
 // With high number of increments and threads, it is almost certain to give incorrect total
+// ~6 ns per increment
 //
 void increaseWithoutLock(unsigned localCount)
 {
@@ -22,6 +23,7 @@ void increaseWithoutLock(unsigned localCount)
 }
 
 // This one seems to perform the best, but remembering to unlock is a hassle
+// ~3 ns per increment
 void increaseWithFunctionLevelMutex(unsigned localCount)
 {
     globalCountLock.lock();
@@ -34,7 +36,8 @@ void increaseWithFunctionLevelMutex(unsigned localCount)
     globalCountLock.unlock();
 }
 
-// This one is slightly slower than function level plain mutex, but more usable because no need to remember unlocking
+// More usable than plain function level mutex
+// ~3 ns per increment
 void increaseWithFunctionLevelGuradedMutex(unsigned localCount)
 {
     lock_guard<mutex> guardedLock{ globalCountLock };
@@ -45,7 +48,8 @@ void increaseWithFunctionLevelGuradedMutex(unsigned localCount)
     }
 }
 
-// This opens up more opportunities for context switch thus almost similar to the no-lock case in terms of performance
+// This is much worse in terms of performance, perhaps locking at too granular a level is not good
+// ~60 ns
 void increaseWithLoadModifyUpdateLevelMutex(unsigned localCount)
 {
     while (localCount-- > 0)
@@ -58,6 +62,7 @@ void increaseWithLoadModifyUpdateLevelMutex(unsigned localCount)
     }
 }
 
+// similar to the plain mutex at update level
 void increaseWithLoadModifyUpdateLevelGuardedMutex(unsigned localCount)
 {
     while (localCount-- > 0)
