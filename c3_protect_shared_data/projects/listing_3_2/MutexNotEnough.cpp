@@ -19,10 +19,18 @@ class ProtectedData
             // Even though we are protecting access to the data through mutex
             // that is not enough, the passed in func can steal the memory address
             // of the protected data and then freely manipulate bypassing lock.
+            // We could prevent the stealing by applying the func on a copy.
             //
             lock_guard<mutex> funcGuard{ dataLock_ };
 
+            // deep copy
+            // auto copy = data_;
+
             func(data_);
+            // func(copy);
+
+            // copy assignedment should be a deep copy as wellss
+            // data_ = copy;
         }
 
         unsigned data()
