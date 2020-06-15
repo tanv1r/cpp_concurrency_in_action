@@ -89,7 +89,7 @@ int main()
 
     // The problem is in the standardStack interface. top() and pop() both should be under mutex.
     // - What if we eliminate top() and let pop() return the stack's top as well as remove it?
-    // - If we do so, pop() could remove the top elment from the stack and when memory is under pressure
+    // - If we do so, pop() could remove the top element from the stack and when memory is under pressure
     // - can fail at copy-construction of the top element to return. Especially if the stack is like
     // - myStack<vector<int>> where the vectors have lots of items.
     // 
