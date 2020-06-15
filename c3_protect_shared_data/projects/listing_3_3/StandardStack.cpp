@@ -98,7 +98,7 @@ int main()
     // -- vector<int> result;
     // -- myStack.pop(result);
     // -- Problems:
-    // --- (1) Caller may not have all relevant items to construct an element beforehand.
+    // --- (1) Caller may not have all relevant info to construct an element beforehand.
     // --- (2) Expensive.
     // --- (3) The type may not support assignment.
     // - Option: 2
