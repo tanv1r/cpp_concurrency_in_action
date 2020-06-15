@@ -29,7 +29,7 @@ class ProtectedData
             func(data_);
             // func(copy);
 
-            // copy assignedment should be a deep copy as wellss
+            // copy assignment should be a deep copy as wellss
             // data_ = copy;
         }
 
