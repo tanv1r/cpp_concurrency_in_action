@@ -43,6 +43,26 @@ int main()
     // ------------------------------------------------------------------------------------------
     //         T1                                    |          T2
     // ------------------------------------------------------------------------------------------
+    //if (!myStack.empty())                          |
+    //{                                              |
+    //                                               |         if (!myStack.empty())
+    //                                               |         {
+    //                                               |             // value == 5
+    //                                               |             int const value = myStack.top();
+    //                                               |             myStack.pop();
+    //                                               |             // myStack is empty nows
+    //                                               |             doSomething(value);
+    //                                               |         }
+    //    // ERROR: top() called on empty stack.     |
+    //    int const value = myStack.top();            |
+    //}                                              |
+
+    // RACE - 2
+    // There is a single element (5) on myStack.
+    // Two threads T1 and T2 are concurrently accessing myStack.
+    // ------------------------------------------------------------------------------------------
+    //         T1                                    |          T2
+    // ------------------------------------------------------------------------------------------
     // if (!myStack.empty())                         |
     //{                                              | 
     //    // value == 5                              |
@@ -59,7 +79,7 @@ int main()
     //    myStack.pop();                             |
     //}                                              |
 
-    // RACE - 2
+    // RACE - 3
     //                                   |   |
     //                                   | 5 |
     //                                   | 4 |
@@ -88,7 +108,8 @@ int main()
     // }                                             |
 
     // The problem is in the standardStack interface. top() and pop() both should be under mutex.
-    // - What if we eliminate top() and let pop() return the stack's top as well as remove it?
+    // - What if we eliminate top() and let pop() return the stack's top as well as remove it? To prevent
+    // - RACE - 1, pop() will throw emptyStack exception.
     // - If we do so, pop() could remove the top element from the stack and when memory is under pressure
     // - can fail at copy-construction of the top element to return. Especially if the stack is like
     // - myStack<vector<int>> where the vectors have lots of items.
