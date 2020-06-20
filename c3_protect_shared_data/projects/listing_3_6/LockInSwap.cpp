@@ -17,8 +17,9 @@ class X
 
         friend void swap(X & lhs, X & rhs)
         {
-            // If same instance, lock() on line 34 tries to acquire
+            // If same instance, lock() on line 35 tries to acquire
             // lock on the same mutex twice which is undefined behavior.
+            // So the check below is required.
             //
             if (&lhs == &rhs)
             {
