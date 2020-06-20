@@ -17,7 +17,7 @@ class X
 
         friend void swap(X & lhs, X & rhs)
         {
-            // If same instance, lock() on line 26 tries to acquire
+            // If same instance, lock() on line 34 tries to acquire
             // lock on the same mutex twice which is undefined behavior.
             //
             if (&lhs == &rhs)
@@ -39,7 +39,7 @@ class X
             //
             lock_guard<mutex> guardLhsMutex(lhs.detailsMutex_, adopt_lock);
             lock_guard<mutex> guardRhsMutex(rhs.detailsMutex_, adopt_lock);
-            
+
             swap(lhs.someDetails_, rhs.someDetails_);
         }
 
