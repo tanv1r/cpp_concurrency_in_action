@@ -72,6 +72,13 @@ void consumer()
             dataCond.notify_one();
         }
 
+        // When it goes in wait, the supplied m is unlocked
+        // and when it wakes up to check the condition it reacquires the lock
+        //
+        // Due to Spurious Wake, the thread actually can check
+        // multiple times and find the condition false. The condition
+        // check should not have side-effects.
+        //
         dataCond.wait(
             m, 
             []{ return !dataQueue.empty();});
