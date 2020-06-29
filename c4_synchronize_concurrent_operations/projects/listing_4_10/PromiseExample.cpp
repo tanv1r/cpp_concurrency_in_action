@@ -18,6 +18,9 @@ int main()
 
     thread t1(printInteger, ref(fut));
 
+    // It is almost like condition variable
+    // but it can communicate data.
+    //
     prom.set_value(100);
 
     t1.join();
