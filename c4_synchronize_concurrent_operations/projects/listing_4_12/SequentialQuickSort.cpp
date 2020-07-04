@@ -1,8 +1,10 @@
+#include <chrono>
 #include <iostream>
 #include <list>
 #include <random>
 
 using namespace std;
+using namespace chrono;
 
 template<typename T>
 list<T> SequentialQuickSort(list<T> input)
@@ -65,20 +67,28 @@ void PrintList(list<int> const & elements)
 
 int main()
 {
-    const int kMaxElmenetCount = 10;
+    const int kMaxElementCount = 2000;
     random_device device;
     mt19937 rng(device());
-    uniform_int_distribution<mt19937::result_type> distMax(1, kMaxElmenetCount);
+    uniform_int_distribution<mt19937::result_type> distMax(1, kMaxElementCount);
 
     list<int> elements;
-    for (int i = 0; i < kMaxElmenetCount; ++i)
+    for (int i = 0; i < kMaxElementCount; ++i)
     {
         elements.push_back( distMax(rng) );
     }
 
-    PrintList(elements);
+    auto const & tic = steady_clock::now();
+
+    // PrintList(elements);
 
     elements = SequentialQuickSort<int>(ref(elements));
 
-    PrintList(elements);
+    // PrintList(elements);
+
+    auto const & toc = steady_clock::now();
+
+    auto const & elapsedMilliSec = duration_cast<duration<double, ratio<1, 1000>>>(toc-tic);
+
+    cout << "Took " << elapsedMilliSec.count() << " milli seconds to sort " << kMaxElementCount << " elements." << endl; 
 }
