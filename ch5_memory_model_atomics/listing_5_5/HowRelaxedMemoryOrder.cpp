@@ -39,6 +39,6 @@ int main()
     tw_x_y.join();
     tr_y_x.join();
 
-    // z.load() is using std::memory_order_seq_cst
+    // assert can happen now.
     assert(z.load() != 0);
 }
